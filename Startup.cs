@@ -93,7 +93,7 @@ namespace dotnetserver
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "TaskMap API",
+                    Title = "API for Hackathon22",
                     Description = "Here you can find a description" +
                     " of all possible endpoints (with the exception of SignalR)" +
                     " of the TaskMap API",
