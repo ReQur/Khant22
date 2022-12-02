@@ -69,6 +69,7 @@ namespace dotnetserver.Controllers
             {
                 username = request.UserName,
                 userId = user.userId,
+                avatarUrl = user.avatarUrl,
                 firstName = user.firstName,
                 lastName = user.lastName,
                 AccessToken = jwtResult.AccessToken,
@@ -118,6 +119,7 @@ namespace dotnetserver.Controllers
             {
                 username = request.username,
                 userId = request.userId,
+                avatarUrl = request.avatarUrl,
                 firstName = request.firstName,
                 lastName = request.lastName,
                 AccessToken = jwtResult.AccessToken,
@@ -157,7 +159,7 @@ namespace dotnetserver.Controllers
         /// <returns>Nothing</returns>
         /// <response code="200">Success</response>
         /// <response code="401">Unauthorized if get request from unauthorized client</response>
-        [HttpDelete("logout")]
+        [HttpPost("logout")]
         [Authorize]
         public ActionResult Logout()
         {
