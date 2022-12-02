@@ -107,8 +107,8 @@ namespace dotnetserver
 
         public async Task<bool> RegisterUser(TbUser user)
         {
-            var sql = @"INSERT INTO user(username, firstName, lastName, password) 
-                            VALUES(@username,  @firstName, @lastName, @password);";
+            var sql = @"INSERT INTO user(username, firstName, lastName, password, avatarUrl) 
+                            VALUES(@username,  @firstName, @lastName, @password, @avatarUrl);";
             try
             {
                 await DbExecuteAsync(sql, user);
