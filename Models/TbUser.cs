@@ -6,7 +6,7 @@
         public string username { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
-        public string md5PasswordHash { get; set; }
+        public string password { get; set; }
         public string avatarUrl { get; set; }
     }
 

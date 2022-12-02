@@ -38,7 +38,7 @@ namespace dotnetserver
             }
 
             var parameters = new { UserName = userName, Password = password };
-            var sql = "SELECT * FROM user WHERE username=@UserName and md5PasswordHash=@Password";
+            var sql = "SELECT * FROM user WHERE username=@UserName and password=@Password";
 
             try
             {
@@ -107,8 +107,8 @@ namespace dotnetserver
 
         public async Task<bool> RegisterUser(TbUser user)
         {
-            var sql = @"INSERT INTO user(username, firstName, lastName, md5PasswordHash) 
-                            VALUES(@username,  @firstName, @lastName, @md5PasswordHash);";
+            var sql = @"INSERT INTO user(username, firstName, lastName, password) 
+                            VALUES(@username,  @firstName, @lastName, @password);";
             try
             {
                 await DbExecuteAsync(sql, user);

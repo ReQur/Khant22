@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS `user` (
     `username` VARCHAR(255) NOT NULL,
     `firstName` VARCHAR(255) NOT NULL,
     `lastName` VARCHAR(255) NOT NULL,
-    `md5PasswordHash` VARCHAR(255) NOT NULL,
+    `password` VARCHAR(255) NOT NULL,
     `avatarUrl` VARCHAR(255),
     PRIMARY KEY (`userId`),
     UNIQUE KEY (`username`)
