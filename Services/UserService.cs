@@ -13,8 +13,6 @@ namespace dotnetserver
         Task<string> GetUserId(string userName);
         Task<TbUser> GetUserData(string userName);
         Task<bool> RegisterUser(TbUser user);
-        Task SetLastBoardId(string boardId);
-
     }
 
     public class UserService : WithDbAccess, IUserService
@@ -110,13 +108,7 @@ namespace dotnetserver
         public async Task<bool> RegisterUser(TbUser user)
         {
             var sql = @"INSERT INTO user(username, firstName, lastName, md5PasswordHash) 
-                            VALUES(@username,  @firstName, @lastName, @md5PasswordHash);
-                        SELECT LAST_INSERT_ID() INTO @_userId;
-                        INSERT INTO board(userId, boardName,  boardDescription) 
-                            VALUES(@_userId, 'Default', 'Your first board');
-                        UPDATE user
-                            SET lastBoardId = (SELECT LAST_INSERT_ID())
-                            WHERE userId = @_userId;";
+                            VALUES(@username,  @firstName, @lastName, @md5PasswordHash);";
             try
             {
                 await DbExecuteAsync(sql, user);
@@ -128,20 +120,6 @@ namespace dotnetserver
             }
             
             return true;
-        }
-
-        public async Task SetLastBoardId(string boardId)
-        {
-            var parameters = new { boardId };
-            var sql = "UPDATE user SET lastBoardId=@boardId WHERE userId=(SELECT userId FROM board WHERE boardId=@boardId)";
-            try
-            {
-                await DbExecuteAsync(sql, parameters);
-            }
-            catch (Exception e)
-            {
-                throw (new Exception($"Was try to set lastboardId={boardId} for user"));
-            }
         }
     }
 

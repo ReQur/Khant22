@@ -7,9 +7,7 @@
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string md5PasswordHash { get; set; }
-        public string avatar { get; set; }
-        public uint lastBoardId { get; set; }
-
+        public string avatarUrl { get; set; }
     }
 
     public class TbUser : IUser

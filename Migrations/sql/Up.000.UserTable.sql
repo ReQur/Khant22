@@ -1,9 +1,10 @@
 CREATE TABLE IF NOT EXISTS `user` (
     `userId` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `email` VARCHAR(255) NOT NULL,
+    `username` VARCHAR(255) NOT NULL,
     `firstName` VARCHAR(255) NOT NULL,
     `lastName` VARCHAR(255) NOT NULL,
     `md5PasswordHash` VARCHAR(255) NOT NULL,
+    `avatarUrl` VARCHAR(255),
     PRIMARY KEY (`userId`),
-    UNIQUE KEY (`email`)
+    UNIQUE KEY (`username`)
 );
