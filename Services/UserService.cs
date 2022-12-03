@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using dotnetserver.Models;
 using Microsoft.Extensions.Logging;
+using Dapper;
 
 namespace dotnetserver
 {
@@ -91,18 +92,29 @@ namespace dotnetserver
         public async Task<User> GetUserData(string login)
         {
             var parameters = new { login };
-            var sql = "SELECT * FROM user WHERE login=@login";
-            try
-            {
-                var user = await DbQueryAsync<User>(sql, parameters);
-                return user.First();
+            var sql = "SELECT u.*, o.* FROM user u LEFT JOIN organization o on u.organizationId = o.organizationId WHERE login=@login";
 
-            }
-            catch (Exception e)
+            using (var db = _context.GenericConnection())
             {
-                throw (new Exception("Was try to get data of unknown user"));
+                db.Open();
+                try
+                {
+                    var user = await db.QueryAsync<User, Organization, User>(
+                           sql,
+                           (user, org) =>
+                           {
+                               user.organization = org;
+                               return user;
+                           }, parameters, splitOn: "organizationId"
+                       );
+                    return user.First();
+
+                }
+                catch (Exception e)
+                {
+                    throw (new Exception("Was try to get data of unknown user"));
+                }
             }
-            
         }
 
         public async Task<bool> RegisterUser(User user)

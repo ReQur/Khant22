@@ -69,6 +69,7 @@ namespace dotnetserver
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IClientLogService, ClientLogService>();
             services.AddScoped<IVehicleService, VehicleService>();
+            services.AddScoped<IRequestService, RequestService>();
 
             services.AddCors(options =>
             {

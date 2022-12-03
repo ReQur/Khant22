@@ -34,16 +34,13 @@ namespace dotnetserver.Services
 				db.Open();
 				try
 				{
-					var vehicles = await db.QueryAsync<Vehicle, vehicleType, serviceType, vehicleTypeExt, Organization, Vehicle>(
+					var vehicles = await db.QueryAsync<Vehicle, Organization, Vehicle>(
 							query,
-							(vehicle, veh_type, ser_type, veh_type_ext, org) =>
+							(vehicle,  org) =>
 							{
-								vehicle.vehicleType = veh_type;
-								vehicle.serviceType = ser_type;
-								vehicle.vehicleTypeExt = veh_type_ext;
 								vehicle.organization = org;
 								return vehicle;
-							}, parameters, splitOn: "vehicleTypeId, serviceTypeId, vehicleTypeExtId, organizationId"
+							}, parameters, splitOn: "organizationId"
 						);
 					return vehicles;
 				}
@@ -68,16 +65,13 @@ namespace dotnetserver.Services
 				db.Open();
 				try
 				{
-					var vehicle = await db.QueryAsync<Vehicle, vehicleType, serviceType, vehicleTypeExt, Organization, Vehicle>(
+					var vehicle = await db.QueryAsync<Vehicle, Organization, Vehicle>(
 						query,
-						(vehicle, veh_type, ser_type, veh_type_ext, org) =>
+						(vehicle, org) =>
                         {
-							vehicle.vehicleType = veh_type;
-							vehicle.serviceType = ser_type;
-							vehicle.vehicleTypeExt= veh_type_ext;
-							vehicle.organization = org;
+	                        vehicle.organization = org;
 							return vehicle;
-						}, parameters, splitOn: "vehicleTypeId, serviceTypeId, vehicleTypeExtId, organizationId"
+						}, parameters, splitOn: "organizationId"
 					);
 					return vehicle.FirstOrDefault();
 				}
