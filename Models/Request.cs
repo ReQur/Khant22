@@ -9,5 +9,6 @@ namespace dotnetserver.Models
 		public string comment { get; set; }
 		public User user { get; set; }
 		public Organization organization { get; set; }
+		public Vehicle vehicle { get; set; }
 	}
 }

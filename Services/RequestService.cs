@@ -21,24 +21,26 @@ namespace dotnetserver.Services
 		public async Task<IEnumerable<Request>> GetRequests(int organizationId)
 		{
 			var parameters = new { OrganizationId = organizationId };
-			var query = @"select r.*, u.*, o.*
+			var query = @"select r.*, u.*, o.*, v.*
 							from request r
 							left join user u on r.userId = u.userId
 							left join organization o on r.organizationId = o.organizationId
+							left join vehicle v on r.vehicleId = v.vehicleId
 							where r.organizationId = @OrganizationId;";
 			using (var db = _context.GenericConnection())
 			{
 				db.Open();
 				try
 				{
-					var requests = await db.QueryAsync<Request, User, Organization, Request>(
+					var requests = await db.QueryAsync<Request, User, Organization, Vehicle, Request>(
 						query,
-						(req, user, org) =>
+						(req, user, org, veh) =>
 						{
 							req.user = user;
 							req.organization = org;
+							req.vehicle = veh;
 							return req;
-						}, parameters, splitOn: "userId, organizationId"
+						}, parameters, splitOn: "userId, organizationId, vehicleId"
 					);
 					return requests;
 				}
@@ -51,24 +53,25 @@ namespace dotnetserver.Services
 
 		public async Task<IEnumerable<Request>> GetRequests()
 		{
-			var query = @"select r.*, u.*, o.*
+			var query = @"select r.*, u.*, o.*, v.*
 							from request r
 							left join user u on r.userId = u.userId
 							left join organization o on r.organizationId = o.organizationId
-							where r.organizationId = @OrganizationId;";
+							left join vehicle v on r.vehicleId = v.vehicleId;";
 			using (var db = _context.GenericConnection())
 			{
 				db.Open();
 				try
 				{
-					var requests = await db.QueryAsync<Request, User, Organization, Request>(
+					var requests = await db.QueryAsync<Request, User, Organization, Vehicle, Request>(
 						query,
-						(req, user, org) =>
+						(req, user, org, veh) =>
 						{
 							req.user = user;
 							req.organization = org;
+							req.vehicle = veh;
 							return req;
-						}, splitOn: "userId, organizationId"
+						}, splitOn: "userId, organizationId, vehicleId"
 					);
 					return requests;
 				}

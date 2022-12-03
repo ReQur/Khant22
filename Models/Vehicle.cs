@@ -14,6 +14,7 @@
         public string fuelType { get; set; }
         public string subOrganization { get; set; }
         public string ownershipType { get; set; }
+        public bool sma { get; set; }
     }
 
     public class Vehicle: IVehicle
