@@ -81,9 +81,10 @@ namespace dotnetserver.Services
 
 		public async Task<Request> AddRequest(Request request)
 		{
-			var query = "insert into request (status, userId, vehicleId, organizationId) " +
-			            "values (@Status, @UserId, @VehicleId, @OrganizationId)";
-			var parameters = new { Status = request.status, UserId = request.user.userId, OrganizationId = request.organization.organizationId};
+			var query = "insert into request (status, userId, vehicleId, organizationId, comment) " +
+			            "values (@Status, @UserId, @VehicleId, @OrganizationId, @comment)";
+			var parameters = new { Status = request.status, UserId = request.user.userId, 
+				OrganizationId = request.organization.organizationId, Comment = request.comment};
 
 			using (var db = _context.GenericConnection())
 			{
@@ -102,8 +103,9 @@ namespace dotnetserver.Services
 
 		public async Task<Request> EditRequest(Request request)
 		{
-			var query = "update request set (status = @Status, userId = @UserId, vehicleId = @VehicleId, organizationId = @OrganizationId) where request == @Id";
-			var parameters = new {Id = request.requestId, Status = request.status, UserId = request.user.userId, OrganizationId = request.organization.organizationId };
+			var query = "update request set (status = @Status, userId = @UserId, vehicleId = @VehicleId, organizationId = @OrganizationId, comment = @Comment) where request == @Id";
+			var parameters = new {Id = request.requestId, Status = request.status, 
+				UserId = request.user.userId, OrganizationId = request.organization.organizationId, Comment = request.comment };
 
 			using (var db = _context.GenericConnection())
 			{
