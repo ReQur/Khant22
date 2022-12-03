@@ -24,10 +24,10 @@ namespace dotnetserver
             _logger = logger;
         }
 
-        public async Task<bool> IsValidUserCredentials(string userName, string password)
+        public async Task<bool> IsValidUserCredentials(string login, string password)
         {
-            _logger.LogInformation($"Validating user [{userName}] with password [{password}]");
-            if (string.IsNullOrWhiteSpace(userName))
+            _logger.LogInformation($"Validating user [{login}] with password [{password}]");
+            if (string.IsNullOrWhiteSpace(login))
             {
                 return false;
             }
@@ -37,8 +37,8 @@ namespace dotnetserver
                 return false;
             }
 
-            var parameters = new { UserName = userName, Password = password };
-            var sql = "SELECT * FROM user WHERE username=@UserName and password=@Password";
+            var parameters = new { Login = login, Password = password };
+            var sql = "SELECT * FROM user WHERE login=@login and password=@Password";
 
             try
             {
@@ -55,10 +55,10 @@ namespace dotnetserver
 
         }
 
-        public async Task<bool> IsAnExistingUser(string userName)
+        public async Task<bool> IsAnExistingUser(string login)
         {
-            var parameters = new { userName };
-            var sql = "SELECT * FROM user WHERE username=@userName";
+            var parameters = new { login };
+            var sql = "SELECT * FROM user WHERE login=@login";
             try
             {
                 var user = await DbQueryAsync<User>(sql, parameters);
@@ -71,10 +71,10 @@ namespace dotnetserver
             return true;
         }
 
-        public async Task<string> GetUserId(string userName)
+        public async Task<string> GetUserId(string login)
         {
-            var parameters = new { userName };
-            var sql = "SELECT userId FROM user WHERE username=@userName";
+            var parameters = new { login };
+            var sql = "SELECT userId FROM user WHERE login=@login";
             try
             {
                  var user = await DbQueryAsync<string>(sql, parameters);
@@ -88,10 +88,10 @@ namespace dotnetserver
             
         }
 
-        public async Task<User> GetUserData(string userName)
+        public async Task<User> GetUserData(string login)
         {
-            var parameters = new { userName };
-            var sql = "SELECT * FROM user WHERE username=@userName";
+            var parameters = new { login };
+            var sql = "SELECT * FROM user WHERE login=@login";
             try
             {
                 var user = await DbQueryAsync<User>(sql, parameters);
@@ -107,8 +107,8 @@ namespace dotnetserver
 
         public async Task<bool> RegisterUser(User user)
         {
-            var sql = @"INSERT INTO user(username, firstName, lastName, password, avatarUrl) 
-                            VALUES(@username,  @firstName, @lastName, @password, @avatarUrl);";
+            var sql = @"INSERT INTO user(login, firstName, lastName, password, organizationId, jobTitle) 
+                            VALUES(@login,  @firstName, @lastName, @password, @organizationId, @jobTitle);";
             try
             {
                 await DbExecuteAsync(sql, user);
