@@ -11,8 +11,8 @@ namespace dotnetserver
         Task<bool> IsAnExistingUser(string userName);
         Task<bool> IsValidUserCredentials(string userName, string password);
         Task<string> GetUserId(string userName);
-        Task<TbUser> GetUserData(string userName);
-        Task<bool> RegisterUser(TbUser user);
+        Task<User> GetUserData(string userName);
+        Task<bool> RegisterUser(User user);
     }
 
     public class UserService : WithDbAccess, IUserService
@@ -42,7 +42,7 @@ namespace dotnetserver
 
             try
             {
-                var user = await DbQueryAsync<TbUser>(sql, parameters);
+                var user = await DbQueryAsync<User>(sql, parameters);
                 var _ = user.First();
             }
             catch (Exception e)
@@ -61,7 +61,7 @@ namespace dotnetserver
             var sql = "SELECT * FROM user WHERE username=@userName";
             try
             {
-                var user = await DbQueryAsync<TbUser>(sql, parameters);
+                var user = await DbQueryAsync<User>(sql, parameters);
                 var _ = user.First();
             }
             catch (Exception e)
@@ -88,13 +88,13 @@ namespace dotnetserver
             
         }
 
-        public async Task<TbUser> GetUserData(string userName)
+        public async Task<User> GetUserData(string userName)
         {
             var parameters = new { userName };
             var sql = "SELECT * FROM user WHERE username=@userName";
             try
             {
-                var user = await DbQueryAsync<TbUser>(sql, parameters);
+                var user = await DbQueryAsync<User>(sql, parameters);
                 return user.First();
 
             }
@@ -105,7 +105,7 @@ namespace dotnetserver
             
         }
 
-        public async Task<bool> RegisterUser(TbUser user)
+        public async Task<bool> RegisterUser(User user)
         {
             var sql = @"INSERT INTO user(username, firstName, lastName, password, avatarUrl) 
                             VALUES(@username,  @firstName, @lastName, @password, @avatarUrl);";
