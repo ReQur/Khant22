@@ -106,9 +106,9 @@ namespace dotnetserver.Services
 
 		public async Task<Request> EditRequest(Request request)
 		{
-			var query = "update request set (status = @Status, userId = @UserId, vehicleId = @VehicleId, organizationId = @OrganizationId, comment = @Comment) where request == @Id";
+			var query = "update request set status = @Status, userId = @UserId, vehicleId = @VehicleId, organizationId = @OrganizationId, comment = @Comment where requestId = @Id";
 			var parameters = new {Id = request.requestId, Status = request.status, 
-				UserId = request.user.userId, OrganizationId = request.organization.organizationId, Comment = request.comment };
+				UserId = request.user.userId, VehicleId = request.vehicle.vehicleId, OrganizationId = request.organization.organizationId, Comment = request.comment };
 
 			using (var db = _context.GenericConnection())
 			{
