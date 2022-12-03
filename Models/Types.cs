@@ -7,7 +7,7 @@
     }
 
     public class vehicleType : IType
-    { 
+    {
     }
     public class serviceType : IType
     {
