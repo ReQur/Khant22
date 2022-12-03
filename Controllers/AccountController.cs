@@ -51,25 +51,24 @@ namespace dotnetserver.Controllers
                 return BadRequest();
             }
 
-            if (!await _userService.IsValidUserCredentials(request.UserName, request.Password))
+            if (!await _userService.IsValidUserCredentials(request.Login, request.Password))
             {
                 return Unauthorized();
             }
 
-            var user = await _userService.GetUserData(request.UserName);
+            var user = await _userService.GetUserData(request.Login);
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, user.username),
+                new Claim(ClaimTypes.Name, user.login),
                 new Claim(ClaimTypes.NameIdentifier, user.userId.ToString())
             };
 
-            var jwtResult = _jwtAuthManager.GenerateTokens(request.UserName, claims, DateTime.Now);
-            _logger.LogInformation($"User [{request.UserName}] logged in the system.");
+            var jwtResult = _jwtAuthManager.GenerateTokens(request.Login, claims, DateTime.Now);
+            _logger.LogInformation($"User [{request.Login}] logged in the system.");
             return Ok(new LoginResult
             {
-                username = request.UserName,
+                login = request.Login,
                 userId = user.userId,
-                avatarUrl = user.avatarUrl,
                 firstName = user.firstName,
                 lastName = user.lastName,
                 AccessToken = jwtResult.AccessToken,
@@ -93,14 +92,14 @@ namespace dotnetserver.Controllers
         [AllowAnonymous]
         [ProducesResponseType(typeof(LoginResult), 200)]
         [HttpPost("register")]
-        public async Task<ActionResult> Register([FromBody] TbUser request)
+        public async Task<ActionResult> Register([FromBody] User request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            if (await _userService.IsAnExistingUser(request.username))
+            if (await _userService.IsAnExistingUser(request.login))
             {
                 return Unauthorized();
             }
@@ -109,17 +108,16 @@ namespace dotnetserver.Controllers
             
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name,request.username),
+                new Claim(ClaimTypes.Name,request.login),
                 new Claim(ClaimTypes.NameIdentifier, request.userId.ToString())
             };
 
-            var jwtResult = _jwtAuthManager.GenerateTokens(request.username, claims, DateTime.Now);
-            _logger.LogInformation($"User [{request.username}] logged in the system.");
+            var jwtResult = _jwtAuthManager.GenerateTokens(request.login, claims, DateTime.Now);
+            _logger.LogInformation($"User [{request.login}] logged in the system.");
             return Ok(new LoginResult
             {
-                username = request.username,
+                login = request.login,
                 userId = request.userId,
-                avatarUrl = request.avatarUrl,
                 firstName = request.firstName,
                 lastName = request.lastName,
                 AccessToken = jwtResult.AccessToken,
@@ -141,12 +139,12 @@ namespace dotnetserver.Controllers
         [Authorize]
         public async Task<ActionResult> GetCurrentUser()
         {
-            var userName = User.Identity?.Name;
-            var user = await _userService.GetUserData(userName);
+            var Login = User.Identity?.Name;
+            var user = await _userService.GetUserData(Login);
 
             return Ok(new LoginResult
             {
-                username = user.username,
+                login = user.login,
                 userId = user.userId,
                 firstName = user.firstName,
                 lastName = user.lastName,
@@ -166,9 +164,9 @@ namespace dotnetserver.Controllers
             // optionally "revoke" JWT token on the server side --> add the current token to a block-list
             // https://github.com/auth0/node-jsonwebtoken/issues/375
 
-            var userName = User.Identity?.Name;
-            _jwtAuthManager.RemoveRefreshTokenByUserName(userName);
-            _logger.LogInformation($"User [{userName}] logged out the system.");
+            var Login = User.Identity?.Name;
+            _jwtAuthManager.RemoveRefreshTokenByUserName(Login);
+            _logger.LogInformation($"User [{Login}] logged out the system.");
             return Ok();
         }
 
@@ -190,25 +188,25 @@ namespace dotnetserver.Controllers
         {
             try
             {
-                var userName = User.Identity?.Name;
-                _logger.LogInformation($"User [{userName}] is trying to refresh JWT token.");
+                var Login = User.Identity?.Name;
+                _logger.LogInformation($"User [{Login}] is trying to refresh JWT token.");
 
                 if (string.IsNullOrWhiteSpace(request.RefreshToken))
                 {
                     return Unauthorized();
                 }
 
-                var user = await _userService.GetUserData(userName);
+                var user = await _userService.GetUserData(Login);
 
                 var accessToken = await HttpContext.GetTokenAsync("Bearer", "access_token");
                 var jwtResult = _jwtAuthManager.Refresh(request.RefreshToken, accessToken, DateTime.Now);
-                _logger.LogInformation($"User [{userName}] has refreshed JWT token.");
+                _logger.LogInformation($"User [{Login}] has refreshed JWT token.");
                 return Ok(new LoginResult
                 {
                     userId = user.userId,
                     firstName = user.firstName,
                     lastName = user.lastName,
-                    username = user.username,
+                    login = user.login,
                     AccessToken = jwtResult.AccessToken,
                     RefreshToken = jwtResult.RefreshToken.TokenString
                 });
@@ -224,15 +222,15 @@ namespace dotnetserver.Controllers
     public class LoginRequest
     {
         [Required]
-        [JsonPropertyName("username")]
-        public string UserName { get; set; }
+        [JsonPropertyName("login")]
+        public string Login { get; set; }
 
         [Required]
         [JsonPropertyName("password")]
         public string Password { get; set; }
     }
 
-    public class LoginResult: IUser
+    public class LoginResult: User
     {
 
         [JsonPropertyName("accessToken")]

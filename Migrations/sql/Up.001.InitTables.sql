@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `vehicle` (
     `vehicleChars` VARCHAR(255) NOT NULL,
     `country` ENUM('Russia', 'Unknown', 'Import'),
     `fuelType` ENUM('Diesel', 'Unknown', 'Petrol'),
-    `subOrganization` ENUM('Yes', 'No'),
+    `subOrganization` boolean,
     `ownershipType` ENUM('Contract', 'Rent', 'leasing', 'Unknown'),
     CONSTRAINT `fk_vehicle_organization_organizationId`
         FOREIGN KEY (`organizationId`)
