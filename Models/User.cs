@@ -7,7 +7,7 @@
 	    public string lastName { get; set; }
 		public string login { get; set; }
 	    public string password { get; set; }
-	    public uint organizationId { get; set; }
+	    public Organization organization { get; set; }
 	    public string jobTitle { get; set; }
     }
 }

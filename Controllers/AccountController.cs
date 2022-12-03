@@ -14,7 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace dotnetserver.Controllers
 {
     [ApiController]
-    [Authorize]
+   // [Authorize]
     [Route("api/account")]
     public class AccountController : ControllerBase
     {
@@ -71,7 +71,7 @@ namespace dotnetserver.Controllers
                 userId = user.userId,
                 firstName = user.firstName,
                 lastName = user.lastName,
-                organizationId = user.organizationId,
+                organization = user.organization,
                 jobTitle = user.jobTitle,
 				AccessToken = jwtResult.AccessToken,
                 RefreshToken = jwtResult.RefreshToken.TokenString
@@ -138,10 +138,11 @@ namespace dotnetserver.Controllers
         /// <response code="401">Unauthorized if get request from unauthorized client</response>
         [ProducesResponseType(typeof(LoginResult), 200)]
         [HttpGet("user")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult> GetCurrentUser()
         {
-            var Login = User.Identity?.Name;
+            //var Login = User.Identity?.Name;
+            var Login = "login";
             var user = await _userService.GetUserData(Login);
 
             return Ok(new LoginResult
@@ -150,6 +151,7 @@ namespace dotnetserver.Controllers
                 userId = user.userId,
                 firstName = user.firstName,
                 lastName = user.lastName,
+                organization = user.organization,
             });
         }
 
