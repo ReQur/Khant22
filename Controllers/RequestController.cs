@@ -32,15 +32,15 @@ namespace dotnetserver.Controllers
 		}
 
 		[HttpPost(nameof(EditRequest))]
-		public Task<Request> EditRequest([FromBody] Request request)
+		public async Task<Request> EditRequest([FromBody] Request request)
 		{
-			return default;
+			return await _requestService.EditRequest(request);
 		}
 
 		[HttpPost(nameof(AddRequest))]
-		public Task<Request> AddRequest([FromBody] Request request)
+		public async Task<Request> AddRequest([FromBody] Request request)
 		{
-			return default;
+			return await _requestService.AddRequest(request);
 		}
 	}
 }
