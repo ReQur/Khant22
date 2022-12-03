@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace dotnetserver.Controllers
 {
 	[ApiController]
-	//[Authorize]
+	// [Authorize]
 	[Route("api/[controller]")]
 	public class VehicleController : ControllerBase
 	{
@@ -19,10 +19,10 @@ namespace dotnetserver.Controllers
 			_vehicleService = vehicleService;
 		}
 
-		[HttpGet(nameof(GetVehicles) + "/organizationId")]
-		public async Task<IEnumerable<Vehicle>> GetVehicles(int organizationId)
+		[HttpPost(nameof(GetVehicles))]
+		public async Task<IEnumerable<Vehicle>> GetVehicles([FromBody] Organization organization)
 		{
-			return await _vehicleService.GetVehicles(organizationId);
+			return await _vehicleService.GetVehicles(organization.name);
 		}
 
 		[HttpGet(nameof(GetVehicle) + "/vehicleId")]
@@ -31,10 +31,5 @@ namespace dotnetserver.Controllers
 			return await _vehicleService.GetVehicle(vehicleId);
 		}
 
-		[HttpGet(nameof(RemoveVehicle) + "/vehicleId")]
-		public async Task<ActionResult<Vehicle>> RemoveVehicle(int vehicleId)
-		{
-			return await _vehicleService.RemoveVehicle(vehicleId);
-		}
 	}
 }
