@@ -16,7 +16,7 @@
         public string ownershipType { get; set; }
     }
 
-    public class Vehcle: IVehicle
+    public class Vehicle: IVehicle
     {
     }
 
