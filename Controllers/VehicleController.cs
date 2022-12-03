@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace dotnetserver.Controllers
 {
 	[ApiController]
-	[Authorize]
+	//[Authorize]
 	[Route("api/[controller]")]
 	public class VehicleController : ControllerBase
 	{

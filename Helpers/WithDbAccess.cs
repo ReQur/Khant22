@@ -8,7 +8,7 @@ namespace dotnetserver
 {
     public class WithDbAccess
     {
-        private readonly ConnectionContext _context;
+        protected readonly ConnectionContext _context;
 
         public WithDbAccess(ConnectionContext context)
         {

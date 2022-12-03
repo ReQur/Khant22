@@ -17,13 +17,9 @@ namespace dotnetserver.Services
 
 	public class VehicleService : WithDbAccess, IVehicleService
 	{
-		private readonly ConnectionContext _context;
-
 		public VehicleService(ConnectionContext context) : base(context) 
 		{
-			_context = context;
 		}
-
 		public async Task<IEnumerable<Vehicle>> GetVehicles(int organizationId)
 		{
 			var parameters = new { OrganizationId = organizationId };
