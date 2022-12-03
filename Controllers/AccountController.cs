@@ -148,16 +148,17 @@ namespace dotnetserver.Controllers
                 userId = user.userId,
                 firstName = user.firstName,
                 lastName = user.lastName,
+                jobTitle = user.jobTitle,
+                organizationId = user.organizationId,
             });
         }
-
-        /// <summary>
-        /// Remove user from server claims and delete his access and refresh tokens.
-        /// </summary>
-        /// <returns>Nothing</returns>
-        /// <response code="200">Success</response>
-        /// <response code="401">Unauthorized if get request from unauthorized client</response>
-        [HttpPost("logout")]
+		/// <summary>
+		/// Remove user from server claims and delete his access and refresh tokens.
+		/// </summary>
+		/// <returns>Nothing</returns>
+		/// <response code="200">Success</response>
+		/// <response code="401">Unauthorized if get request from unauthorized client</response>
+		[HttpPost("logout")]
         [Authorize]
         public ActionResult Logout()
         {
