@@ -98,8 +98,7 @@ namespace dotnetserver
                     Version = "v1",
                     Title = "API for Hackathon22",
                     Description = "Here you can find a description" +
-                    " of all possible endpoints (with the exception of SignalR)" +
-                    " of the TaskMap API",
+                    " of the Hackathon22 API",
                     Contact = new OpenApiContact
                     {
                         Name = "Danil Khabibullin",
