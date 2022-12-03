@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace dotnetserver.Controllers
 {
 	[ApiController]
+	[Authorize]
 	[Route("api/[controller]")]
 	public class RequestController : ControllerBase
 	{
@@ -25,9 +26,9 @@ namespace dotnetserver.Controllers
 		}
 
 		[HttpGet(nameof(GetRequests))]
-		public Task<IEnumerable<Request>> GetRequests()
+		public async Task<IEnumerable<Request>> GetRequests()
 		{
-			return default;
+			return await _requestService.GetRequests();
 		}
 
 		[HttpPost(nameof(EditRequest))]
