@@ -2,8 +2,8 @@
 {
 	public class Organization
 	{
-		public uint Id { get; set; }
-		public string Name { get; set; }
+		public uint organizationId { get; set; }
+		public string name { get; set; }
 		public string INN { get; set; }
 	}
 }

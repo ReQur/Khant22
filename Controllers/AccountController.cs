@@ -59,7 +59,7 @@ namespace dotnetserver.Controllers
             var user = await _userService.GetUserData(request.Login);
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, user.Login),
+                new Claim(ClaimTypes.Name, user.login),
                 new Claim(ClaimTypes.NameIdentifier, user.userId.ToString())
             };
 
@@ -67,7 +67,7 @@ namespace dotnetserver.Controllers
             _logger.LogInformation($"User [{request.Login}] logged in the system.");
             return Ok(new LoginResult
             {
-                Login = request.Login,
+                login = request.Login,
                 userId = user.userId,
                 firstName = user.firstName,
                 lastName = user.lastName,
@@ -99,7 +99,7 @@ namespace dotnetserver.Controllers
                 return BadRequest();
             }
 
-            if (await _userService.IsAnExistingUser(request.Login))
+            if (await _userService.IsAnExistingUser(request.login))
             {
                 return Unauthorized();
             }
@@ -108,15 +108,15 @@ namespace dotnetserver.Controllers
             
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name,request.Login),
+                new Claim(ClaimTypes.Name,request.login),
                 new Claim(ClaimTypes.NameIdentifier, request.userId.ToString())
             };
 
-            var jwtResult = _jwtAuthManager.GenerateTokens(request.Login, claims, DateTime.Now);
-            _logger.LogInformation($"User [{request.Login}] logged in the system.");
+            var jwtResult = _jwtAuthManager.GenerateTokens(request.login, claims, DateTime.Now);
+            _logger.LogInformation($"User [{request.login}] logged in the system.");
             return Ok(new LoginResult
             {
-                Login = request.Login,
+                login = request.login,
                 userId = request.userId,
                 firstName = request.firstName,
                 lastName = request.lastName,
@@ -144,7 +144,7 @@ namespace dotnetserver.Controllers
 
             return Ok(new LoginResult
             {
-                Login = user.Login,
+                login = user.login,
                 userId = user.userId,
                 firstName = user.firstName,
                 lastName = user.lastName,
@@ -206,7 +206,7 @@ namespace dotnetserver.Controllers
                     userId = user.userId,
                     firstName = user.firstName,
                     lastName = user.lastName,
-                    Login = user.Login,
+                    login = user.login,
                     AccessToken = jwtResult.AccessToken,
                     RefreshToken = jwtResult.RefreshToken.TokenString
                 });
@@ -222,7 +222,7 @@ namespace dotnetserver.Controllers
     public class LoginRequest
     {
         [Required]
-        [JsonPropertyName("Login")]
+        [JsonPropertyName("login")]
         public string Login { get; set; }
 
         [Required]
