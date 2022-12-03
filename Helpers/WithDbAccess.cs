@@ -35,8 +35,8 @@ namespace dotnetserver
                     throw;
                 }
             }
-           else
-            return await db.QueryAsync<T>(sql, parameters);
+           else 
+	            return await db.QueryAsync<T>(sql, parameters);
         }
 
         protected async Task DbExecuteAsync(string sql, object parameters, bool transaction = false)

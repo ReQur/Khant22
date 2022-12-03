@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text;
 using dotnetserver.Controllers;
 using dotnetserver.Middleware;
+using dotnetserver.Services;
 using dotnetserver.Services.JWT;
 using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Builder;
@@ -67,6 +68,7 @@ namespace dotnetserver
             services.AddHostedService<JwtRefreshTokenCache>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IClientLogService, ClientLogService>();
+            services.AddScoped<IVehicleService, VehicleService>();
 
             services.AddCors(options =>
             {
