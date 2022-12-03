@@ -4,12 +4,12 @@ namespace dotnetserver.Models
 {
 	public class Request
 	{
-		public uint RequestId { get; set; }
-		public string Status { get; set; }
-		public DateTime StartDate { get; set; }
-		public DateTime EndDate { get; set; }
-		public DateTime RequestDate { get; set; }
-		public uint UserId { get; set; }
-		public uint OrganizationId { get; set; }
+		public uint requestId { get; set; }
+		public string status { get; set; }
+		public DateTime startDate { get; set; }
+		public DateTime endDate { get; set; }
+		public DateTime requestDate { get; set; }
+		public User user { get; set; }
+		public Organization organization { get; set; }
 	}
 }

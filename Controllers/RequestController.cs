@@ -8,21 +8,20 @@ using System.Threading.Tasks;
 namespace dotnetserver.Controllers
 {
 	[ApiController]
-	[Authorize]
 	[Route("api/[controller]")]
 	public class RequestController : ControllerBase
 	{
-		private readonly IRequestService _RequestService;
+		private readonly IRequestService _requestService;
 
 		public RequestController(IRequestService RequestService)
 		{
-			_RequestService = RequestService;
+			_requestService = RequestService;
 		}
 
 		[HttpGet(nameof(GetRequests) + "/organizationId")]
-		public Task<IEnumerable<Request>> GetRequests(int organizationId)
+		public async Task<IEnumerable<Request>> GetRequests(int organizationId)
 		{
-			return default;
+			return await _requestService.GetRequests(organizationId);
 		}
 
 		[HttpGet(nameof(GetRequests))]
@@ -33,6 +32,12 @@ namespace dotnetserver.Controllers
 
 		[HttpPost(nameof(EditRequest))]
 		public Task<Request> EditRequest([FromBody] Request request)
+		{
+			return default;
+		}
+
+		[HttpPost(nameof(AddRequest))]
+		public Task<Request> AddRequest([FromBody] Request request)
 		{
 			return default;
 		}
