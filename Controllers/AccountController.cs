@@ -71,7 +71,9 @@ namespace dotnetserver.Controllers
                 userId = user.userId,
                 firstName = user.firstName,
                 lastName = user.lastName,
-                AccessToken = jwtResult.AccessToken,
+                organizationId = user.organizationId,
+                jobTitle = user.jobTitle,
+				AccessToken = jwtResult.AccessToken,
                 RefreshToken = jwtResult.RefreshToken.TokenString
             });
         }
@@ -120,9 +122,7 @@ namespace dotnetserver.Controllers
                 userId = request.userId,
                 firstName = request.firstName,
                 lastName = request.lastName,
-                organizationId = request.organizationId,
-                jobTitle = request.jobTitle,
-				AccessToken = jwtResult.AccessToken,
+                AccessToken = jwtResult.AccessToken,
                 RefreshToken = jwtResult.RefreshToken.TokenString
             });
         }
