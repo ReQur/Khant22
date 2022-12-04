@@ -25,7 +25,7 @@ namespace dotnetserver.Controllers
 			return await _vehicleService.GetVehicles(organization.name);
 		}
 
-		[HttpGet(nameof(GetVehicle) + "/vehicleId")]
+		[HttpGet(nameof(GetVehicle) + "{vehicleId}")]
 		public async Task<Vehicle> GetVehicle(int vehicleId)
 		{
 			return await _vehicleService.GetVehicle(vehicleId);
