@@ -52,7 +52,7 @@ namespace dotnetserver.Controllers
 				return BadRequest();
 			}
 
-			return Ok(result);
+			return Ok(new { key = result });
 		}
 
 		[HttpGet(nameof(DecodeQrCode) + "/{encoded}")]
@@ -63,7 +63,6 @@ namespace dotnetserver.Controllers
 			{
 				return BadRequest();
 			}
-
 			return Ok(result);
 		}
 	}
